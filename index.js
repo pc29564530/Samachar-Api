@@ -7,93 +7,16 @@ const port = 5000;
 
 config();
 
-app.get("/general", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=general`,
-        headers: {
-        'User-Agent': userAgent
-        }
-    }
-    solve(options,res);
-});
-
-app.get("/entertainment", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=entertainment`,
-        headers: {
-        'User-Agent': userAgent
-        }
-    }
-    solve(options,res);
-});
-
-app.get("/science", async function (req, res) {
+app.get("/api/samachar/:category", async function (req, res) {
+    const {category} = req.params;
     const userAgent = req.get('user-agent');
     const options = {
         host: 'newsapi.org',
-        path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=science`,
+        path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=${category}`,
         headers: {
             'User-Agent': userAgent
         }
     }
-    solve(options,res);
-});
-
-app.get("/health", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=health`,
-    headers: {
-        'User-Agent': userAgent
-    }
-    }
-    solve(options,res);
-
-})
-
-app.get("/sports", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=sports`,
-    headers: {
-        'User-Agent': userAgent
-    }
-    }
-    solve(options,res);
-
-})
-
-app.get("/business", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=business`,
-    headers: {
-        'User-Agent': userAgent
-    }
-    }
-    solve(options,res);
-});
-
-app.get("/technology", async function (req, res) {
-    const userAgent = req.get('user-agent');
-    const options = {
-    host: 'newsapi.org',
-    path: `/v2/top-headlines?country=in&apiKey=${process.env.API_KEY}&category=technology`,
-    headers: {
-        'User-Agent': userAgent
-    }
-    }
-    solve(options,res);
-});
-
-function solve(options,res) {
     https.get(options, function (response) {
         let data;
         response.on('data', function (chunk) {
@@ -112,6 +35,6 @@ function solve(options,res) {
             reject(err);
         });
     });
-};
+});
 
 app.listen(port, () => console.log('listening on port ' + port));
