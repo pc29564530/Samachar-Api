@@ -1,12 +1,21 @@
 const express = require('express');
 const request = require('request');
 const https = require('https');
+const path = require('path');
+const cors = require('cors');
 const {config} = require('dotenv');
 const app = express();
 const port = 5000;
 
 config();
 
+app.use(cors())
+
+app.use(express.static(path.join('build')));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'build/index.html'))
+});
 app.get("/api/samachar/:category", async function (req, res) {
     const {category} = req.params;
     const userAgent = req.get('user-agent');
